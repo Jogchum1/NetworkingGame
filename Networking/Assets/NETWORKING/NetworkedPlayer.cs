@@ -55,6 +55,12 @@ namespace ChatClientExample
 					networkId = this.networkId
 				};
 				client.SendPackedMessage(inputMsg);
+
+                if (Input.GetMouseButtonDown(0))
+                {
+					client.CallOnServerObject("Fire", this, transform.position, transform.forward);
+
+				}
 			}
 
 			if (isServer) {
@@ -92,6 +98,27 @@ namespace ChatClientExample
 
 					server.SendBroadcast(posMsg);
 				}
+			}
+		}
+		public void Fire(Vector3 pos, Vector3 dir)
+		{
+			// Debug.Log($"Called: {pos} {dir}");
+
+			GameObject obj;
+			uint id = NetworkManager.NextNetworkID;
+			if (server.networkManager.SpawnWithId(NetworkSpawnObject.BULLET, id, out obj))
+			{
+				obj.GetComponent<NetworkedBullet>().isServer = true;
+
+				SpawnMessage msg = new SpawnMessage
+				{
+					objectType = NetworkSpawnObject.BULLET,
+					networkId = id,
+					position = pos,
+					rotation = dir
+				};
+
+				server.SendBroadcast(msg);
 			}
 		}
 
