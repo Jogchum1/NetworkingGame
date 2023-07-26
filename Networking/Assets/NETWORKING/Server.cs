@@ -21,7 +21,8 @@ namespace ChatClientExample {
         NETWORK_UPDATE_POSITION,
         INPUT_UPDATE,                        // uint networkId, InputUpdate (float, float, bool)
         PING,
-        PONG
+        PONG,
+        RPC_MESSAGE
     }
 
     public enum MessageType

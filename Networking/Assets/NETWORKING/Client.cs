@@ -17,7 +17,8 @@ namespace ChatClientExample
             { NetworkMessageType.NETWORK_DESTROY,           HandleNetworkDestroy },           // uint networkId
             { NetworkMessageType.NETWORK_UPDATE_POSITION,   HandleNetworkUpdate },            // uint networkId, vector3 position, vector3 rotation
             { NetworkMessageType.CHAT_MESSAGE,              HandleChatMessage },
-            { NetworkMessageType.PING,                      HandlePing }
+            { NetworkMessageType.PING,                      HandlePing },
+            { NetworkMessageType.RPC_MESSAGE,               CallOnServerObject }            
         };
 
         public NetworkDriver m_Driver;
@@ -208,6 +209,12 @@ namespace ChatClientExample
 
             PongMessage pongMsg = new PongMessage();
             client.SendPackedMessage(pongMsg);
+        }
+
+        static void CallOnServerObject(Client client, MessageHeader header)
+        {
+            RPCMessage rpcMessage = new RPCMessage();
+            client.SendPackedMessage(rpcMessage);
         }
     }
 }
